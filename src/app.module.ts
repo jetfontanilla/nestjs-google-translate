@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TranslateController } from './translate/translate.controller';
-import { GcpTranslateService } from './translate/gcp-translate.service';
+import { GcpTranslateService } from './language/gcp-translate.service';
+import { LanguageController } from './language/language.controller';
 
 @Module({
   imports: [],
-  controllers: [TranslateController],
+  controllers: [LanguageController],
   providers: [GcpTranslateService],
 })
 export class AppModule {}
