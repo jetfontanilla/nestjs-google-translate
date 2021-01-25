@@ -7,7 +7,7 @@ GCP translation API integration using NestJS
 ## REST API Usage
 
 ### GET /language
-- example request: GET /language?text=hello&to=ja&from=en
+- example request: GET /language/translate?text=hello&to=ja&from=en
 
 | Parameters      | Required | Description |
 | ----------- | ----------- | ----------- |
