@@ -6,14 +6,23 @@ GCP translation API integration using NestJS
 
 ## REST API Usage
 
-### GET /language
-- example request: GET /language?text=hello&to=ja&from=en
-
-| Parameters      | Required | Description |
+### POST /language/translate
+| Request Body      | Required | Description |
 | ----------- | ----------- | ----------- |
 | text      | yes       | text you want to translate        |
 | to   | yes        | target language to translate the text into. uses [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format         |
-| from   | no        | source language of the text to translate from. uses [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) format         |
+| from   | no        | source language of the text to translate from. ISO 639-1 format         |
+
+### POST /language/detect
+| Request Body      | Required | Description |
+| ----------- | ----------- | ----------- |
+| text      | yes       | text you want to translate        |
+
+### GET /language/list
+| Request Body      | Required | Description |
+| ----------- | ----------- | ----------- |
+| displayLanguage      | no       | language to use for language names. ISO 639-1 format. defaults to "en"        |
+
 
 <p>&nbsp;</p>
 

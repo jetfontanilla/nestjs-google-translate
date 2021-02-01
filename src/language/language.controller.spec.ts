@@ -9,7 +9,7 @@ describe('LanguageController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [LanguageController],
-      providers: [GcpTranslateService]
+      providers: [GcpTranslateService],
     }).compile();
 
     languageController = module.get<LanguageController>(LanguageController);
@@ -21,30 +21,77 @@ describe('LanguageController', () => {
   });
 
   describe('translate', () => {
-
     it('should translate using text and target language', async () => {
-      const translatedText = "hola mundo";
-      jest.spyOn(gcpTranslateService, 'translate').mockImplementation(() => Promise.resolve(translatedText));
+      const translatedText = 'hola mundo';
+      jest
+        .spyOn(gcpTranslateService, 'translate')
+        .mockImplementation(() => Promise.resolve(translatedText));
 
       const translateRequest = {
         text: 'hello word',
-        to: 'es'
+        to: 'es',
       };
-      expect(await languageController.translate(translateRequest)).toBe(translatedText);
+      expect(await languageController.translate(translateRequest)).toBe(
+        translatedText,
+      );
     });
 
     it('should translate using text and target language and source language', async () => {
-      const translatedText = "hola mundo";
-      jest.spyOn(gcpTranslateService, 'translate').mockImplementation(() => Promise.resolve(translatedText));
+      const translatedText = 'hola mundo';
+      jest
+        .spyOn(gcpTranslateService, 'translate')
+        .mockImplementation(() => Promise.resolve(translatedText));
 
       const translateRequest = {
         text: 'ハローワールド',
         to: 'es',
-        from: 'ja'
+        from: 'ja',
       };
-      expect(await languageController.translate(translateRequest)).toBe(translatedText);
+      expect(await languageController.translate(translateRequest)).toBe(
+        translatedText,
+      );
     });
-
   });
 
+  describe('detect', () => {
+    it('should auto detect the language', async () => {
+      jest.spyOn(gcpTranslateService, 'detect').mockImplementation(() =>
+        Promise.resolve({
+          language: 'es',
+          confidence: 0.9,
+          input: 'hola mundo',
+        }),
+      );
+
+      const detectRequest = {
+        text: 'hola mundo',
+      };
+      expect(await languageController.detectLanguage(detectRequest)).toBe({
+        language: 'es',
+        confidence: 0.9,
+        input: 'hola mundo',
+      });
+    });
+  });
+
+  describe('list', () => {
+    it('should list all supported language', async () => {
+      jest
+        .spyOn(gcpTranslateService, 'supportedLanguages')
+        .mockImplementation(() =>
+          Promise.resolve([
+            { code: 'es', name: 'Spanish' },
+            { code: 'en', name: 'English' },
+          ]),
+        );
+
+      const listRequest = {
+        displayLanguage: 'en',
+      };
+      expect(await languageController.getSupportedLanguages(listRequest)).toBe([
+        { code: 'es', name: 'Spanish' },
+        { code: 'en', name: 'English' },
+      ]);
+    });
+  });
 });
